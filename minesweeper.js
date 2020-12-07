@@ -6,7 +6,7 @@ var board = {
     {
       row: 0,
       col: 0,
-      isMine: false,
+      isMine: true,
       hidden: true
     },
     {
@@ -74,13 +74,34 @@ function startGame() {
 }
 
 // Define this function to look for a win condition:
-//
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
+
+  // if there any mines that are not marked ... continue to play 
+  // if there are any 'empty' cells that are hidden ... continue to play 
+  // if ALL mines are marked and all empty cells are hidden: the Player has WON. display winning message 
+
 function checkForWin() {
-//loop through all the board cells. check for each: 
-// .isMine == true && .isMarked == true
-// if .isMarked == false ... continue to play 
+  let totalCells = board.cells.length; 
+  let totalMines = 0;
+  let totalVisible = 0;
+
+  for (let i = 0; i < board.cells.length; i++) { 
+   if (board.cells[i].isMine == true && board.cells[i].isMarked == true) {
+     totalMines++
+   } else if (board.cells[i].isMine == false && board.cells[i].hidden == false) {
+     totalVisible++
+   }  
+
+   if (totalMines + totalVisible == totalCells) {
+    return lib.displayMessage('You win!')
+   }
+  } 
+
+
+
+
+  
 }
 
 
