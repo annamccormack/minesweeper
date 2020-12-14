@@ -23,7 +23,7 @@ function createBoard(size) {
   return board
 }
 
-createBoard(4);
+createBoard(5);
 
 function startGame() {
   for (let i = 0; i < board.cells.length; i++) {
@@ -66,3 +66,11 @@ function countSurroundingMines(cell) {
   }
   return count;
 }
+
+function resetBoard() {
+  document.querySelector(".board").innerHTML = " ";
+  createBoard(5);
+  startGame();
+}
+
+
