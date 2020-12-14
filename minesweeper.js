@@ -1,69 +1,29 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
-// Define your `board` object here!
-var board = {
-  cells: [
-    {
-      row: 0,
-      col: 0,
-      isMine: true,
-      hidden: true
-    },
-    {
-      row: 0,
-      col: 1,
-      isMine: true,
-      hidden: true
-    },
-    {
-      row: 0,
-      col: 2,
-      isMine: true,
-      hidden: true
-    },
-    {
-      row: 1,
-      col: 0,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 1,
-      col: 1,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 1,
-      col: 2,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 2,
-      col: 0,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 2,
-      col: 1,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 2,
-      col: 2,
-      isMine: false,
-      hidden: true
-    },
-  ]
+function createBoard(size) {
+  document.querySelector(".board")
+  board = {
+    cells: []
+  }
+
+  let mines = 0.2
+
+
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      board.cells.push({
+        row: x,
+        col: y,
+        isMine: Math.random() < mines,
+        isMarked: false,
+        hidden: true
+      })
+    }
+  }
+  return board
 }
-// 1. loop through the contents of board.cells
-//  2. call countSurroundingMines once for each cell, 
-// each of these cells is passed as an arguement
-// 3. add a new property (surroundingMines) to the cell objects and assign the result of the countSurroundingMines function 
-//  board.cells[i].surroundingMines = result of countSurroundingMines
+
+createBoard(4);
 
 function startGame() {
   for (let i = 0; i < board.cells.length; i++) {
@@ -73,55 +33,28 @@ function startGame() {
   lib.initBoard()
 }
 
-// Define this function to look for a win condition:
-// 1. Are all of the cells that are NOT mines visible?
-// 2. Are all of the mines marked?
-
-  // if there any mines that are not marked ... continue to play 
-  // if there are any 'empty' cells that are hidden ... continue to play 
-  // if ALL mines are marked and all empty cells are hidden: the Player has WON. display winning message 
-
 function checkForWin() {
-  let totalCells = board.cells.length; 
+  let totalCells = board.cells.length;
   let totalMines = 0;
   let totalVisible = 0;
 
-  for (let i = 0; i < board.cells.length; i++) { 
-   if (board.cells[i].isMine == true && board.cells[i].isMarked == true) {
-     totalMines++
-   } else if (board.cells[i].isMine == false && board.cells[i].hidden == false) {
-     totalVisible++
-   }  
+  for (let i = 0; i < board.cells.length; i++) {
+    if (board.cells[i].isMine == true && board.cells[i].isMarked == true) {
+      totalMines++
+    } else if (board.cells[i].isMine == false && board.cells[i].hidden == false) {
+      totalVisible++
+    }
 
-   if (totalMines + totalVisible == totalCells) {
-    return lib.displayMessage('You win!')
-   }
-  } 
-
-
-
-
-  
+    if (totalMines + totalVisible == totalCells) {
+      return lib.displayMessage('You win!')
+    }
+  }
 }
-
-
-
-// You can use this function call to declare a winner (once you've
-// detected that they've won, that is!)
-//   lib.displayMessage('You win!')
 
 document.addEventListener("click", checkForWin);
 
 document.addEventListener("contextmenu", checkForWin);
 
-// Define this function to count the number of mines around the cell
-// (there could be as many as 8). You don't have to get the surrounding
-// cells yourself! Just use `lib.getSurroundingCells`: 
-//
-// var surrounding = lib.getSurroundingCells(cell.row, cell.col)
-//
-// It will return cell objects in an array. You should loop through 
-// them, counting the number of times `cell.isMine` is true.
 function countSurroundingMines(cell) {
   var surrounding = lib.getSurroundingCells(cell.row, cell.col);
   var count = 0;
