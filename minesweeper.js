@@ -46,7 +46,8 @@ function checkForWin() {
     }
 
     if (totalMines + totalVisible == totalCells) {
-      return lib.displayMessage('You win!')
+      myPlay();
+      return lib.displayMessage('You win!');
     }
   }
 }
@@ -74,3 +75,7 @@ function resetBoard() {
 }
 
 
+function myPlay(){
+  var audio = new Audio("audio/Cheer.mp3");
+  audio.play();
+}
